@@ -1,0 +1,32 @@
+/* صفحة الدخول وإدارة الحسابات: تستعمل رموز التصميم الموجودة فقط */
+.login-page {
+  min-height: 100vh; min-height: 100dvh; display: grid; place-items: center; padding: 24px 16px;
+  background: radial-gradient(900px 420px at 50% -8%, rgba(241, 196, 15, .13), transparent 65%), var(--bg);
+}
+.login-card {
+  width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 18px; padding: 36px 30px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 20px; box-shadow: var(--shadow-lg);
+}
+.login-brand { text-align: center; font-size: 2.1rem; font-weight: 700; color: var(--gold); letter-spacing: .5px; line-height: 1.2; }
+.login-brand small { display: block; font-size: .82rem; font-weight: 400; color: var(--muted); letter-spacing: 0; margin-top: 4px; }
+.login-card h1 { margin: 0; font-size: 1.2rem; text-align: center; font-weight: 600; }
+.login-card .btn.big { display: inline-flex; align-items: center; justify-content: center; gap: 10px; font-size: 1.05rem; min-height: 50px; padding: 12px; }
+.login-card .small-note { text-align: center; margin: 0; }
+.password-field { position: relative; display: flex; }
+/* حقل كلمة المرور dir="ltr": النص يبدأ من اليسار، لذلك زر الإظهار على اليمين (أسلوب فيزيائي مقصود) والحشو على اليمين */
+.password-field input { width: 100%; padding-right: 56px; }
+.password-field .eye {
+  position: absolute; inset-block: 4px; right: 4px; display: inline-flex; align-items: center; justify-content: center;
+  width: 44px; padding: 0; background: transparent; border: 0; border-radius: 9px; color: var(--muted); cursor: pointer;
+}
+.password-field .eye svg { width: 20px; height: 20px; }
+.password-field .eye:hover, .password-field .eye:focus-visible { color: var(--gold); background: var(--raised); }
+.login-card input[aria-invalid="true"] { border-color: var(--loss); }
+.login-card .field-error { color: var(--loss); font-size: .84rem; }
+
+.perm-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 4px 16px; border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; min-width: 0; }
+.perm-grid legend { padding: 0 8px; color: var(--muted); font-size: .9rem; }
+
+.sidebar-user { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); font-size: .82rem; color: var(--muted); }
+.sidebar-user b { color: var(--ink); display: block; font-size: .92rem; overflow-wrap: anywhere; }
+.splash { min-height: 100vh; min-height: 100dvh; display: grid; place-items: center; background: var(--bg); }

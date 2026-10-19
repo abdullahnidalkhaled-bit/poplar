@@ -1,0 +1,62 @@
+/* رموز التصميم (Design Tokens): مصدر واحد للألوان والمسافات والظلال والحركة */
+:root {
+  /* الأسطح: تدرّج هادئ بدل الرمادي المسطح */
+  --bg: #121418;
+  --surface: #1a1d23;
+  --raised: #232730;
+  --field: #0f1115;
+  --sidebar: #0e1013;
+  --line: #2b303a;
+  --line-strong: #3a404c;
+
+  /* النص: تباين مريح (≥ 4.5:1 على كل الأسطح) */
+  --ink: #eef0f3;
+  --muted: #9aa2af;
+  --faint: #6f7684;
+
+  /* الهوية: أصفر Poplar كلون تمييز فقط، لا كخلفية واسعة */
+  --gold: #f1c40f;
+  --gold-hover: #ffd633;
+  --gold-ink: #17140a;
+  --gold-soft: rgba(241, 196, 15, .12);
+  --gold-line: rgba(241, 196, 15, .38);
+  --olive: var(--ink); /* توافق مع الاسم القديم */
+
+  /* الحالات */
+  --loss: #ff7a70;
+  --loss-bg: rgba(255, 122, 112, .12);
+  --warn: #ffab5e;
+  --warn-bg: rgba(255, 171, 94, .12);
+  --ok: #52d894;
+  --ok-bg: rgba(82, 216, 148, .12);
+
+  /* الأبعاد */
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 16px;
+  --tap: 44px; /* أقل مساحة لمس */
+  --sidebar-w: 248px;
+  --bottom-nav-h: 64px;
+  --topbar-h: 56px;
+
+  /* الظل والتوهج (خفيفان) */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, .35);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, .35);
+  --shadow-lg: 0 24px 60px rgba(0, 0, 0, .55);
+  --glow: 0 0 0 3px rgba(241, 196, 15, .22);
+  --ring: 0 0 0 3px rgba(241, 196, 15, .28);
+
+  /* الحركة */
+  --ease: cubic-bezier(.2, .7, .2, 1);
+  --t-fast: .15s;
+  --t: .22s;
+
+  font-family: "IBM Plex Sans Arabic", "Segoe UI", Tahoma, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  color-scheme: dark;
+  line-height: 1.6;
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}

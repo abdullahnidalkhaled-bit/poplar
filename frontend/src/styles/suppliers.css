@@ -1,0 +1,153 @@
+/* حسابات التجار: ألوان الرصيد (مستحق/سلفة/أمانة) متمايزة ولا تعتمد على اللون وحده (النص يرافقها دائماً) */
+.pill.consign { background: var(--warn-bg); color: var(--warn); }
+.pill.acct-due { background: var(--loss-bg); color: var(--loss); }
+.pill.acct-advance { background: var(--gold-soft); color: var(--gold); }
+.pill.acct-mixed { background: var(--warn-bg); color: var(--warn); }
+.pill.acct-settled { background: var(--ok-bg); color: var(--ok); }
+.pill.pay-paid { background: var(--ok-bg); color: var(--ok); }
+.pill.pay-partial { background: var(--warn-bg); color: var(--warn); }
+.pill.pay-unpaid { background: var(--loss-bg); color: var(--loss); }
+.pill.rev { background: var(--raised); color: var(--muted); }
+.amount-due { color: var(--loss); font-weight: 700; }
+.amount-adv { color: var(--gold); font-weight: 700; }
+.amount-ok { color: var(--ok); font-weight: 700; }
+.stat.consign::before { background: var(--warn); }
+.stat.consign .stat-value { color: var(--warn); }
+.stat.advance::before { background: var(--gold); }
+.stat.advance .stat-value { color: var(--gold); }
+.sup-tabs { margin: 6px 0 16px; max-width: 640px; }
+.sup-tabs button { padding-inline: 12px; }
+.row-reversed td { color: var(--muted); }
+.row-reversed td:not(.row-actions) { text-decoration: line-through; text-decoration-color: var(--line-strong); }
+.row-reversed .pill, .row-reversed .mono { text-decoration: none; }
+.ret-series { border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; margin-bottom: 10px; background: var(--raised); }
+.ret-series header { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.ret-sizes { display: flex; flex-wrap: wrap; gap: 10px; }
+.ret-size { display: flex; flex-direction: column; gap: 4px; align-items: center; min-width: 78px; }
+.ret-size input { width: 78px; text-align: center; }
+.ret-list { max-height: 46vh; overflow-y: auto; padding-inline-end: 4px; }
+.sup-summary { display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: baseline; margin: 0 0 14px; }
+@media (max-width: 760px) {
+  .sup-tabs { max-width: none; overflow-x: auto; }
+  .ret-size { min-width: 64px; }
+  .ret-size input { width: 64px; }
+}
+
+/* مراكز مالية منفصلة: مستحق / سلف / صافي */
+.positions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-bottom: 18px; }
+.position { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 16px 18px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.position h3 { font-size: .9rem; font-weight: 600; color: var(--muted); margin: 0; }
+.position .big { font-size: clamp(1.3rem, 1.1rem + .8vw, 1.7rem); font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1.3; }
+.position .sub { font-size: .8rem; color: var(--muted); }
+.position.payable { border-inline-start: 3px solid var(--loss); }
+.position.advance { border-inline-start: 3px solid var(--gold); }
+.position.net { border-inline-start: 3px solid var(--line-strong); }
+.recon { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 0 0 16px; }
+.recon span { color: var(--muted); font-size: .86rem; }
+.recon b { color: var(--ink); font-variant-numeric: tabular-nums; }
+.sup-tabs { max-width: none; overflow-x: auto; }
+.sup-tabs button { white-space: nowrap; }
+.section-title { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin: 20px 0 10px; }
+.section-title h3 { margin: 0; }
+.cur-tag { font-size: .75rem; color: var(--muted); margin-inline-start: 4px; }
+td.num .cur-tag { display: inline-block; }
+.hint-box { background: var(--raised); border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 14px; font-size: .86rem; color: var(--muted); margin: 0 0 14px; }
+.qty-input { width: 72px; text-align: center; min-height: 36px; }
+.table-wrap table th.num, .table-wrap table td.num { white-space: nowrap; }
+@media (max-width: 760px) {
+  .positions { grid-template-columns: minmax(0, 1fr); }
+  .qty-input { width: 64px; }
+}
+
+.sup-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+@media (max-width: 760px) {
+  .sup-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sup-actions .btn { width: 100%; padding-inline: 8px; }
+  .sup-actions .btn.primary { grid-column: 1 / -1; }
+}
+
+/* عملتان مستقلتان */
+.cur-tabs { margin: 4px 0 16px; max-width: 460px; }
+.cur-head { display: flex; align-items: baseline; gap: 10px; margin: 6px 0 12px; }
+.cur-head h2 { margin: 0; font-size: 1.15rem; }
+.cur-badge { font-size: .75rem; font-weight: 700; padding: 2px 10px; border-radius: 99px; background: var(--gold-soft); color: var(--gold); }
+.cur-badge.syp { background: var(--ok-bg); color: var(--ok); }
+.cur-section { border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 18px; margin-bottom: 18px; background: var(--surface); }
+.cur-section > h3 { margin-top: 0; }
+.dual { display: flex; flex-direction: column; gap: 2px; align-items: flex-end; font-variant-numeric: tabular-nums; }
+.dual .zero { color: var(--muted); }
+.dual small { color: var(--muted); font-size: .72rem; margin-inline-start: 4px; }
+.kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 14px; }
+.kpi { background: var(--raised); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; min-width: 0; }
+.kpi .k { font-size: .8rem; color: var(--muted); }
+.kpi .v { font-size: 1.15rem; font-weight: 700; font-variant-numeric: tabular-nums; margin-top: 2px; overflow-wrap: anywhere; }
+.kpi .s { font-size: .74rem; color: var(--muted); margin-top: 2px; }
+.kpi.na .v { color: var(--muted); font-size: .95rem; font-weight: 600; }
+.kpi.good .v { color: var(--ok); }
+.kpi.bad .v { color: var(--loss); }
+.chart-flow { display: flex; align-items: flex-end; gap: 8px; height: 160px; padding: 8px 4px 0; border-bottom: 1px solid var(--line); overflow-x: auto; margin: 8px 0 4px; }
+.flow-col { flex: 1; min-width: 28px; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 3px; }
+.flow-pair { display: flex; align-items: flex-end; gap: 2px; height: 100%; width: 100%; justify-content: center; }
+.flow-bar { width: 42%; max-width: 18px; border-radius: 4px 4px 0 0; min-height: 2px; }
+.flow-bar.in { background: var(--ok); }
+.flow-bar.out { background: var(--loss); }
+.flow-col span { font-size: .66rem; color: var(--muted); }
+.legend { display: flex; gap: 14px; font-size: .78rem; color: var(--muted); margin-bottom: 12px; }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-inline-end: 5px; vertical-align: middle; }
+.legend i.in { background: var(--ok); } .legend i.out { background: var(--loss); }
+.delta-up { color: var(--ok); } .delta-down { color: var(--loss); }
+.est-box { border: 1px dashed var(--line-strong); border-radius: var(--radius); padding: 10px 14px; margin-top: 12px; font-size: .86rem; color: var(--muted); }
+.est-box b { color: var(--ink); }
+@media (max-width: 900px) { .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .kpis { grid-template-columns: minmax(0, 1fr); } .cur-tabs { max-width: none; } }
+
+@media (max-width: 760px) {
+  .table-cards th[scope="row"] { display: flex; justify-content: space-between; gap: 12px; padding: 5px 0; border: 0; background: none; text-align: end; }
+  .table-cards th[scope="row"]::before { content: attr(data-label); color: var(--muted); font-size: .8rem; text-align: start; flex: none; font-weight: 400; }
+}
+
+/* جداول صفحة التاجر: تضييق الحشو وكسر النص الطويل حتى لا يظهر تمرير أفقي داخلي */
+@media (min-width: 761px) {
+  .table-wrap .table-cards th, .table-wrap .table-cards td { padding-inline: 8px; }
+  .table-wrap .table-cards td.num { white-space: nowrap; }
+  .table-wrap .table-cards td.note-cell { min-width: 160px; max-width: 280px; overflow-wrap: anywhere; }
+  .table-wrap .table-cards td { overflow-wrap: anywhere; }
+}
+
+/* مرجع لاتيني (مثل SER-000035) تحت نص عربي: يُحاذى مع بداية الخلية (يمين) بدل أن ينقلب إلى اليسار */
+.table-cards td > .small-note.mono { direction: rtl; unicode-bidi: isolate; text-align: start; }
+
+.inv-actions { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+@media (min-width: 761px) { .inv-actions { flex-direction: column; align-items: stretch; flex-wrap: nowrap; min-width: 108px; } .inv-actions .btn { white-space: nowrap; } }
+
+/* مراجع الاستلام تحت رقم الفاتورة: سطران واضحان بدل نص ملتصق */
+.inv-links { display: flex; flex-direction: column; gap: 2px; margin-top: 4px; }
+.inv-links .mono { direction: ltr; unicode-bidi: isolate; }
+
+/* ───── الرواتب والسلف ───── */
+.pill.tone-ok { background: var(--ok-bg); color: var(--ok); }
+.pill.tone-warn { background: var(--warn-bg); color: var(--warn); }
+.pill.tone-danger { background: var(--loss-bg); color: var(--loss); }
+.pill.tone-info { background: var(--gold-soft); color: var(--gold); }
+.pill.tone-muted { background: var(--raised); color: var(--muted); }
+.inline-field { flex-direction: row; align-items: center; gap: 8px; white-space: nowrap; }
+.period-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-bottom: 14px; }
+.period-bar .chips { flex: 1; min-width: 0; }
+.size-chip.toggle.on { background: var(--gold); color: var(--gold-ink); border-color: var(--gold); }
+.kv { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px 24px; margin: 0; }
+.kv > div { display: flex; flex-direction: column; gap: 2px; }
+.kv dt { color: var(--muted); font-size: .82rem; }
+.kv dd { margin: 0; font-weight: 600; }
+.period-bar .chips { flex: 1 1 100%; order: 3; display: flex; flex-wrap: wrap; gap: 6px; }
+.period-bar .size-chip { white-space: nowrap; }
+@media (min-width: 1001px) { .period-bar .chips { flex: 1 1 0; order: 0; } }
+
+/* ───── بطاقة ملخص الراتب في نموذج المصروف ───── */
+.salary-card { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px 16px; padding: 14px 16px; background: var(--raised); border: 1px solid var(--line); border-radius: var(--radius); }
+.salary-card > div { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.salary-card b { font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.salary-card .due b { color: var(--gold); font-size: 1.15rem; }
+.statement-row .small-note { overflow-wrap: anywhere; }
+.account-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
+.section-title { margin: 18px 0 10px; font-size: 1rem; color: var(--muted); }
+@media (max-width: 600px) { .account-actions .btn { flex: 1 1 100%; } }

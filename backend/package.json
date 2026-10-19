@@ -1,0 +1,49 @@
+{
+  "name": "poplar-backend",
+  "version": "1.0.0",
+  "description": "Poplar inventory, POS and finance API",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abdullahnidalkhaled-bit/poplar.git",
+    "directory": "backend"
+  },
+  "bugs": {
+    "url": "https://github.com/abdullahnidalkhaled-bit/poplar/issues"
+  },
+  "homepage": "https://github.com/abdullahnidalkhaled-bit/poplar#readme",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "node --test \"tests/unit/*.test.js\"",
+    "test:http": "node --test \"tests/http/*.test.js\"",
+    "test:integration": "node --test \"tests/integration/*.test.js\"",
+    "migrate": "node scripts/migrate-v3.js",
+    "create-admin": "node scripts/create-admin.js",
+    "seed": "node scripts/seed.js",
+    "migrate:series": "node scripts/migrate-series.js",
+    "test:all": "node --test \"tests/unit/*.test.js\" \"tests/http/*.test.js\" \"tests/integration/*.test.js\"",
+    "migrate:suppliers": "node scripts/migrate-suppliers.js",
+    "reset-dev": "node scripts/reset-dev.js",
+    "backup-db": "node scripts/backup-db.js"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.8",
+    "express": "^5.3.0",
+    "express-rate-limit": "^8.7.1",
+    "helmet": "^8.3.0",
+    "mongoose": "^9.11.2",
+    "pino": "^10.4.0",
+    "qrcode": "^1.5.4",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}
