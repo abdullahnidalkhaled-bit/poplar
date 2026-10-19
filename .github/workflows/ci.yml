@@ -126,7 +126,20 @@ jobs:
         env:
           MONGO_TEST_URI: ${{ matrix.mongo_uri }}
           DISABLE_TRANSACTIONS: ${{ matrix.disable_transactions }}
-        run: node --test --test-concurrency=1 "tests/integration/*.test.js"
+        run: |
+          set -o pipefail
+          node --test --test-concurrency=1 "tests/integration/*.test.js" 2>&1 | tee "$RUNNER_TEMP/integration.log"
+
+      # Job logs need a login to download; an annotation shows the failing test on the run page.
+      - name: Summarise failing tests
+        if: failure()
+        run: |
+          summary="$(awk '/failing tests/{f=1} f' "$RUNNER_TEMP/integration.log" | head -c 2500)"
+          [ -n "$summary" ] || summary="$(tail -n 30 "$RUNNER_TEMP/integration.log" | head -c 2500)"
+          summary="${summary//'%'/'%25'}"
+          summary="${summary//$'\r'/'%0D'}"
+          summary="${summary//$'\n'/'%0A'}"
+          echo "::error title=Integration tests failed (${{ matrix.mode }})::${summary}"
 
   # A single required check for branch protection.
   ci-success:
