@@ -1,0 +1,33 @@
+name: Feature request
+description: Suggest an improvement or a new capability
+title: "feat: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem are you trying to solve?
+      description: Describe the situation in the shop, warehouse or back office, not only the solution you have in mind.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behaviour
+      description: What should the system do? Mention who can do it (owner or employee) and any money, currency or stock rules involved.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: checkboxes
+    id: constraints
+    attributes:
+      label: Does this touch any of these?
+      description: These areas have strict rules; see CONTRIBUTING.md.
+      options:
+        - label: Money (cash accounts, expenses, supplier or payroll balances)
+        - label: Stock quantities or series
+        - label: Permissions / who can see or do what
+        - label: Database scripts or migrations

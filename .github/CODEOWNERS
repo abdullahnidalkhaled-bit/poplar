@@ -1,0 +1,9 @@
+# Default owner for everything. Money, auth and database-safety code is the most sensitive
+# part of the project, so it is listed explicitly to make that visible in reviews.
+*                                   @abdullahnidalkhaled-bit
+
+/backend/src/config/permissions.js  @abdullahnidalkhaled-bit
+/backend/src/middleware/            @abdullahnidalkhaled-bit
+/backend/src/utils/unitOfWork.js    @abdullahnidalkhaled-bit
+/backend/scripts/lib/safety.js      @abdullahnidalkhaled-bit
+/.github/                           @abdullahnidalkhaled-bit

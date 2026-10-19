@@ -1,0 +1,138 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    name: Backend unit + HTTP (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [22, 24]
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+      - run: npm ci
+      - name: Unit tests (no database)
+        run: npm test
+      - name: HTTP tests (no database)
+        run: npm run test:http
+
+  frontend:
+    name: Frontend tests + build (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [22, 24]
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+      - name: Unit tests
+        run: npm test
+      - name: Production build
+        run: npm run build
+
+  # The integration suites wipe their database, so they only ever run against a throwaway
+  # MongoDB container whose database name contains "test" (the suites refuse anything else).
+  # Both topologies are exercised: a standalone server (compensating-rollback path) and a
+  # single-node replica set (real transactions). See docs/01-overview.md, sections 5.4 and 8.
+  integration:
+    name: Backend integration (MongoDB ${{ matrix.mode }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - mode: standalone
+            mongo_args: ""
+            mongo_uri: mongodb://127.0.0.1:27017/poplar_test
+            disable_transactions: "true"
+          - mode: replica-set
+            mongo_args: "--replSet rs0 --bind_ip_all"
+            mongo_uri: mongodb://127.0.0.1:27017/poplar_test?replicaSet=rs0
+            disable_transactions: "false"
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Start MongoDB (${{ matrix.mode }})
+        env:
+          MONGO_ARGS: ${{ matrix.mongo_args }}
+        run: |
+          docker run -d --name mongo -p 27017:27017 mongo:8.0 $MONGO_ARGS
+          for i in $(seq 1 60); do
+            docker exec mongo mongosh --quiet --eval 'db.runCommand({ ping: 1 })' >/dev/null 2>&1 && break
+            sleep 1
+          done
+          docker exec mongo mongosh --quiet --eval 'db.runCommand({ ping: 1 })'
+
+      - name: Initiate single-node replica set
+        if: matrix.mode == 'replica-set'
+        run: |
+          docker exec mongo mongosh --quiet --eval 'rs.initiate({ _id: "rs0", members: [{ _id: 0, host: "127.0.0.1:27017" }] })'
+          for i in $(seq 1 60); do
+            docker exec mongo mongosh --quiet --eval 'quit(db.hello().isWritablePrimary ? 0 : 1)' && break
+            sleep 1
+          done
+
+      - run: npm ci
+
+      # Files run one at a time: several suites fire parallel same-key requests, and a loaded
+      # shared runner would make those races timing-sensitive (see CHANGELOG, known issues).
+      - name: Integration tests
+        env:
+          MONGO_TEST_URI: ${{ matrix.mongo_uri }}
+          DISABLE_TRANSACTIONS: ${{ matrix.disable_transactions }}
+        run: node --test --test-concurrency=1 "tests/integration/*.test.js"
+
+  # A single required check for branch protection.
+  ci-success:
+    name: CI success
+    if: always()
+    needs: [backend, frontend, integration]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fail if any required job failed or was cancelled
+        env:
+          RESULTS: ${{ join(needs.*.result, ' ') }}
+        run: |
+          echo "Job results: $RESULTS"
+          case "$RESULTS" in *failure*|*cancelled*) exit 1 ;; esac

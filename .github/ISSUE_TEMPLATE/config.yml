@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security vulnerability
+    url: https://github.com/abdullahnidalkhaled-bit/poplar/security/advisories/new
+    about: Please report vulnerabilities privately here, not in a public issue. See SECURITY.md.
+  - name: Documentation
+    url: https://github.com/abdullahnidalkhaled-bit/poplar/tree/main/docs
+    about: Architecture, features, data model and API reference.
