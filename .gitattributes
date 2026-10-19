@@ -1,0 +1,16 @@
+# Normalise line endings: the working tree had a mix of CRLF and LF files.
+# Everything is stored as LF in the repository.
+* text=auto eol=lf
+
+# Windows scripts keep CRLF if any are ever added
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
