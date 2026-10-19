@@ -75,7 +75,7 @@ jobs:
       matrix:
         include:
           - mode: standalone
-            mongo_args: ""
+            mongo_args: "--bind_ip_all"
             mongo_uri: mongodb://127.0.0.1:27017/poplar_test
             disable_transactions: "true"
           - mode: replica-set
@@ -99,10 +99,15 @@ jobs:
         run: |
           docker run -d --name mongo -p 27017:27017 mongo:8.0 $MONGO_ARGS
           for i in $(seq 1 60); do
-            docker exec mongo mongosh --quiet --eval 'db.runCommand({ ping: 1 })' >/dev/null 2>&1 && break
+            if docker exec mongo mongosh --quiet --eval 'db.runCommand({ ping: 1 })' >/dev/null 2>&1; then
+              echo "MongoDB is ready after ${i}s"
+              exit 0
+            fi
             sleep 1
           done
-          docker exec mongo mongosh --quiet --eval 'db.runCommand({ ping: 1 })'
+          echo "::error title=MongoDB did not become ready::$(docker ps -a --format '{{.Status}}' | tr '\n' ' ') | $(docker logs mongo 2>&1 | tail -n 12 | tr '\n' ' ' | cut -c1-1200)"
+          docker logs mongo
+          exit 1
 
       - name: Initiate single-node replica set
         if: matrix.mode == 'replica-set'
